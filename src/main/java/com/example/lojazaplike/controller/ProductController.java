@@ -45,9 +45,12 @@ public class ProductController {
         existing.setDescription(p.getDescription());
         existing.setPrice(p.getPrice());
         existing.setStock(p.getStock());
+        existing.setImageUrl(p.getImageUrl()); // <-- CORREÇÃO AQUI
+
         if (p.getCategory() != null && p.getCategory().getId() != null) {
             existing.setCategory(categoryRepository.findById(p.getCategory().getId()).orElse(null));
         }
+
         return productRepository.save(existing);
     }
 

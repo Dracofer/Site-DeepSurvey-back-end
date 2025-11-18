@@ -38,22 +38,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-    	http
-        .csrf(csrf -> csrf.disable())
-        .cors(cors -> {})  // habilita o CORS
-        .sessionManagement(session -> session
+        http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> {})
+            .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        )
-        .authorizeHttpRequests(auth -> auth
-        	    .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
-        	    .requestMatchers(new AntPathRequestMatcher("/products/**")).permitAll()
-        	    .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
-        	    .anyRequest().authenticated()
-        	);
+            )
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/products/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/cart/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/orders/**")).permitAll()
+                .anyRequest().permitAll()
+            );
 
-    http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-    return http.build();
+        return http.build();
 
     }
 }

@@ -1,12 +1,17 @@
-
 package com.example.lojazaplike.repository;
 
 import com.example.lojazaplike.model.CartItem;
-import com.example.lojazaplike.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
+@Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    List<CartItem> findByUser(User user);
-    void deleteByUser(User user);
+
+    List<CartItem> findBySessionId(String sessionId);
+    Optional<CartItem> findBySessionIdAndProductId(String sessionId, Long productId);
+    
+    void deleteBySessionId(String sessionId);
 }

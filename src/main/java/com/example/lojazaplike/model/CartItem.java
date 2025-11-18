@@ -1,4 +1,3 @@
-
 package com.example.lojazaplike.model;
 
 import javax.persistence.*;
@@ -9,14 +8,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItem {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    private String sessionId;
 
     @ManyToOne
     private Product product;
 
     private Integer quantity;
+
+    private Double price;
 }
