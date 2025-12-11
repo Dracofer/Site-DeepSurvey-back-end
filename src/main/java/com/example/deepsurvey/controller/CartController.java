@@ -36,9 +36,15 @@ public class CartController {
         Product p = productRepo.findById(item.getProduct().getId())
                 .orElseThrow();
 
+        // 🔥 Escolhe preço promocional se existir
+        double priceToUse = 
+                p.getSalePrice() != null && p.getSalePrice() > 0
+                ? p.getSalePrice()
+                : p.getPrice();
+
         if (existing != null) {
             existing.setQuantity(item.getQuantity());
-            existing.setPrice(p.getPrice());
+            existing.setPrice(priceToUse); // agora usa salePrice
             return cartRepo.save(existing);
         }
 
@@ -46,7 +52,7 @@ public class CartController {
         ci.setSessionId(item.getSessionId());
         ci.setProduct(p);
         ci.setQuantity(item.getQuantity());
-        ci.setPrice(p.getPrice());
+        ci.setPrice(priceToUse); // agora usa salePrice
 
         return cartRepo.save(ci);
     }
